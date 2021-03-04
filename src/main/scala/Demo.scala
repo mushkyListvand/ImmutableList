@@ -14,11 +14,6 @@ object Demo extends App {
   val b = new ImmutableList[Int](a :_*)
   val c = b.add(6)
   println(c)
-
-
-
-
-
-
+  println(b)
 
 }
