@@ -71,8 +71,12 @@ class ImmutableList[A]() extends TImmutableList[A] {
   override def add(item: A): TImmutableList[A] = {
     //scans all nodes from first to last and builds new list[A] with the addditional item
     val copy:ImmutableList[A] = this.Clone()
-    var newNode = new Node[A](item, copy.last)
-    copy.last.next = newNode
+    var newNode = null:Node[A]
+    newNode = new Node[A](item,copy.last)
+
+    if(copy.first != null) copy.last.next = newNode
+    else copy.first = newNode
+
     copy.last = newNode
 
     copy
