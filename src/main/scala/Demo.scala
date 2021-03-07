@@ -10,10 +10,7 @@ object Demo extends App {
   }
  println(createArray(1,2,3,4).toList)*/
   var a = List[Int]()
-  a = a.appended(2)
-  val b = new ImmutableList[Int]()
-  val c = b.add(6)
-  println(c)
-  println(b)
+  val b = new ImmutableList[Int](a: _*)
+  println(b.remove(0))
 
 }

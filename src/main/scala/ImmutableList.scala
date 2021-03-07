@@ -42,7 +42,7 @@ class ImmutableList[A]() extends TImmutableList[A] {
     values
   }*/
 
-  private def Clone() = {
+   override  def clone() = {
     var newFirst = null: Node[A]
     var newLast = null:Node[A]
     var current = this.first
@@ -67,10 +67,10 @@ class ImmutableList[A]() extends TImmutableList[A] {
 
   }
 
-  //create new immutable list with the additional item
+  //create new immutable list with the additional item (on the end of the list)
   override def add(item: A): TImmutableList[A] = {
     //scans all nodes from first to last and builds new list[A] with the addditional item
-    val copy:ImmutableList[A] = this.Clone()
+    val copy:ImmutableList[A] = this.clone()
     var newNode = null:Node[A]
     newNode = new Node[A](item,copy.last)
 
@@ -83,8 +83,58 @@ class ImmutableList[A]() extends TImmutableList[A] {
   }
 
   override def prepend(item: A): TImmutableList[A] = {
-    /*var values = extractValues()*/
-    new ImmutableList[A]()
+    val copy = this.clone()
+    var newNode = null:Node[A]
+    newNode = new Node[A](item)
+
+    if(copy.first == null) {
+      copy.last = newNode
+    }
+    else {
+      copy.first.previous = newNode
+      newNode.next = copy.first
+    }
+    copy.first = newNode
+
+    copy
+  }
+
+  override def remove(i: Int): TImmutableList[A] = {
+      val copy = this.clone()
+      var counter = 0
+      var current = copy.first
+      while(counter <= i && current != null) {
+        /*  if(copy.first == current && copy.last == current) {
+          copy.first = null
+          copy.last = null
+        }
+        else if(copy.first == current) {
+          copy.first = copy.first.next
+          copy.first.previous = null
+        }
+        else if(current == copy.last) {
+          current.previous.next = null
+          copy.last = current.previous
+        }
+        else {
+          current.previous.next = current.next
+        }*/
+        if (counter == i) {
+          if (copy.last == current) {
+            copy.last = current.previous
+          }
+          if (copy.first == current) {
+              copy.first = current.next
+            if(copy.first != null)
+               copy.first.previous = null
+          }
+          else current.previous.next = current.next
+
+        }
+        current = current.next
+        counter += 1
+      }
+    copy
   }
 
   //create string for displaying list's values by string builder
