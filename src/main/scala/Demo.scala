@@ -9,8 +9,15 @@ object Demo extends App {
     a
   }
  println(createArray(1,2,3,4).toList)*/
-  var a = List[Int]()
+  var a = List[Int](1, 2)
+/*  a = a.appended(9)
+  a = a.appended(10)
+  a = a.appended(11)*/
+
+
   val b = new ImmutableList[Int](a: _*)
-  println(b.remove(0))
+  println(b.tail())
+  println(b)
+
 
 }

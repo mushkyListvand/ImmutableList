@@ -137,6 +137,8 @@ class ImmutableList[A]() extends TImmutableList[A] {
     copy
   }
 
+
+
   //create string for displaying list's values by string builder
   override def toString: String = {
     var sb = new StringBuilder("ImmutableList(")
@@ -148,6 +150,28 @@ class ImmutableList[A]() extends TImmutableList[A] {
     sb.deleteCharAt(sb.length() - 1) //delete last comma
     sb += ')'
     sb.toString()
+  }
+
+  override def head(): A = {
+    if (first != null)
+      first.value
+    else throw new NoSuchElementException("head of empty list")
+  }
+
+  override def tail(): TImmutableList[A] = {
+    if(this.first == null)
+      throw new UnsupportedOperationException("tail of empty list")
+
+      if(this.first.next == null)
+        new ImmutableList[A]()
+       else {
+        val nextOfFirst = this.first.next
+        val newFirst = new Node[A](nextOfFirst.value, next = nextOfFirst.next)
+
+        if(nextOfFirst.next == null)
+          new ImmutableList[A](newFirst, new Node[A](this.last.value))
+        else new ImmutableList[A](newFirst, this.last)
+      }
   }
 }
 
