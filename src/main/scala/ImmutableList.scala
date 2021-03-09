@@ -141,14 +141,15 @@ class ImmutableList[A]() extends TImmutableList[A] {
 
   //create string for displaying list's values by string builder
   override def toString: String = {
-    var sb = new StringBuilder("ImmutableList(")
     var current = this.first
+    if(current == null) return ""
+
+    var sb = new StringBuilder()
     while(current != null) {
       sb ++= s"${current.value},"
       current = current.next
     }
     sb.deleteCharAt(sb.length() - 1) //delete last comma
-    sb += ')'
     sb.toString()
   }
 
@@ -172,6 +173,44 @@ class ImmutableList[A]() extends TImmutableList[A] {
           new ImmutableList[A](newFirst, new Node[A](this.last.value))
         else new ImmutableList[A](newFirst, this.last)
       }
+  }
+
+  override def isEmpty(): Boolean = {
+    if(this.first == null) true
+    else false
+  }
+
+  override def nonEmpty(): Boolean = {
+    if(this.first == null) true
+    else false
+  }
+
+  override def at(index: Int): A = {
+    if(index < 0) throw new IndexOutOfBoundsException(s"$index")
+
+    var current = this.first
+    var counter = 0
+    while(current != null && counter < index) {
+      counter+=1
+      current = current.next
+    }
+
+    if(current != null) current.value
+    else throw new IndexOutOfBoundsException(s"$index")
+  }
+
+  override def apply(index: Int): A = {
+    this.at(index)
+  }
+
+  override def size(): Int = {
+    var current = this.first
+    var size  = 0
+    while(current != null) {
+      size+=1
+      current = current.next
+    }
+    size
   }
 }
 
