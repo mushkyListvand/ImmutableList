@@ -11,4 +11,6 @@ trait TImmutableList[A] {
   def at(index : Int) : A
   def apply(index : Int) : A
   def size() : Int
+  def take(n : Int) : TImmutableList[A]
+  def drop(n : Int) : TImmutableList[A]
 }

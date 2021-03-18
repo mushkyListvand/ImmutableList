@@ -42,15 +42,16 @@ class ImmutableList[A]() extends TImmutableList[A] {
     values
   }*/
 
-   override  def clone() = {
+   private def cloneList(n : Int = this.size()) = {
+    if(n <= 0) new ImmutableList[A]()
     var newFirst = null: Node[A]
     var newLast = null:Node[A]
     var current = this.first
-    var previous = null: Node[A]
+    var previous = null:Node[A]
     var newNode = null:Node[A]
+    var counter = 0
 
-    while(current!=null) {
-
+    while(current!=null && counter < n) {
       if(newFirst == null) {
         newNode = new Node[A](current.value)
         newFirst = newNode
@@ -61,6 +62,7 @@ class ImmutableList[A]() extends TImmutableList[A] {
 
       previous = newNode
       current = current.next
+      counter += 1
     }
     newLast = previous
     new ImmutableList[A](newFirst, newLast)
@@ -70,7 +72,7 @@ class ImmutableList[A]() extends TImmutableList[A] {
   //create new immutable list with the additional item (on the end of the list)
   override def add(item: A): TImmutableList[A] = {
     //scans all nodes from first to last and builds new list[A] with the addditional item
-    val copy:ImmutableList[A] = this.clone()
+    val copy:ImmutableList[A] = this.cloneList()
     var newNode = null:Node[A]
     newNode = new Node[A](item,copy.last)
 
@@ -83,7 +85,7 @@ class ImmutableList[A]() extends TImmutableList[A] {
   }
 
   override def prepend(item: A): TImmutableList[A] = {
-    val copy = this.clone()
+    val copy = this.cloneList()
     var newNode = null:Node[A]
     newNode = new Node[A](item)
 
@@ -100,7 +102,7 @@ class ImmutableList[A]() extends TImmutableList[A] {
   }
 
   override def remove(i: Int): TImmutableList[A] = {
-      val copy = this.clone()
+      val copy = this.cloneList()
       var counter = 0
       var current = copy.first
       while(counter <= i && current != null) {
@@ -212,6 +214,36 @@ class ImmutableList[A]() extends TImmutableList[A] {
     }
     size
   }
+
+  //the method will return a list consisting only of the first n elements of this collection, or else the collection,
+  // if it has less than n elements
+  override def take(n: Int): TImmutableList[A] = {
+    if(n <= 0) new ImmutableList[A]()
+    this.cloneList(n)
+  }
+
+  //that will return a list consisting of all elements of this general collection except the first n ones,
+  // or else an empty list, if this list has less than n elements.
+  override def drop(n: Int): TImmutableList[A] = {
+    var counter = 0
+    var current = this.first
+    while(current != null && counter < n) {
+      current = current.next
+      counter += 1
+    }
+    val newList = new ImmutableList[A]()
+    if(current != null) {
+      newList.first = new Node[A](current.value, next = current.next)
+      if(current == this.last)
+          newList.last = new Node[A](this.last.value)
+       else newList.last =  this.last
+    }
+    newList
+  }
+
+
+
+
 }
 
 
