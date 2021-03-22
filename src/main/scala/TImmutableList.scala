@@ -13,4 +13,12 @@ trait TImmutableList[A] {
   def size() : Int
   def take(n : Int) : TImmutableList[A]
   def drop(n : Int) : TImmutableList[A]
+  def equals(l : TImmutableList[A]) : Boolean
+  def filter(p : (A) => Boolean) : TImmutableList[A]
+  def headOption() : Option[A]
+  def map[B](f: (A) => B) : TImmutableList[B]
+  def takeWhile(p: (A) => Boolean): TImmutableList[A]
+  def foldLeft[B](z: B)(op : (B, A) => B) : B
+  def concat[B >: A](suffix : TImmutableList[B]) : TImmutableList[B]
+
 }

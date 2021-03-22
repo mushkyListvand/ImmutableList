@@ -10,4 +10,6 @@ class Node[A](val value:A, var previous:Node[A] = null, var next:Node[A] = null)
 
 
 
+
+
 }
