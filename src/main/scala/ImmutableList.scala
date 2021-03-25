@@ -1,6 +1,7 @@
 import scala.collection.immutable.ArraySeq
 import scala.reflect.{ClassManifest, ClassTag}
 
+
 class ImmutableList[A]() extends TImmutableList[A] {
 
   private var first: Node[A] = null
@@ -20,6 +21,7 @@ class ImmutableList[A]() extends TImmutableList[A] {
     if (values.size >= 1) {
       var current = null: Node[A]
       var previous = null: Node[A]
+
 
       for (v <- values) {
         current = new Node[A](v, previous)
